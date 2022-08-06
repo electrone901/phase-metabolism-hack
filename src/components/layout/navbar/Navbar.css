@@ -105,4 +105,8 @@
 
 .nav-bar {
     background-color: #f3ebe8;
+    background-image: url('../../../images/phase-bg.png');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

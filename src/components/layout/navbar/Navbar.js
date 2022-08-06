@@ -19,7 +19,13 @@ import { StylesProvider } from '@material-ui/core/styles'
 import './Navbar.css'
 import logo from '../../../images/logo.jpg'
 
-export const Navbar = ({ connectWallet }) => {
+
+
+export const Navbar = ({
+  currentAccount,
+  connectWallet,
+  onClickDisconnect,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
@@ -136,14 +142,37 @@ export const Navbar = ({ connectWallet }) => {
               </Link>
             </div> */}
 
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={connectWallet}
-            >
-              Login
-            </Button>
-            {/* Add Account  */}
+            {currentAccount ? (
+              <>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ backgroundColor: 'black', color: 'white' }}
+                  endIcon={<VerifiedUserSharpIcon />}
+                >
+                  {currentAccount.substring(0, 8)}...
+                  {currentAccount.substring(38)}
+                </Button>
+                {/* <Button
+                  style={{ color: 'white' }}
+                  to="/"
+                  onClick={onClickDisconnect}
+                >
+                  Logout
+                </Button> */}
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ backgroundColor: '#FF835B', color: 'black' }}
+                  onClick={connectWallet}
+                >
+                  Connect Wallet
+                </Button>
+              </>
+            )}
 
             {/* <div className="sectionDesktop">
 

@@ -21,17 +21,35 @@ import {
 } from '@material-ui/core'
 import './CreateProfile.css'
 import imgPlaceHolder from '../../images/imgPlaceHolder.png'
+import { displayAll } from '../../Phase/displayAll'
 
 function CreateProfile() {
-  const { petId } = useParams()
-  const { isUserLocked, setIsUserLocked } = useState('')
+  const [image, setImage] = useState('')
+  const [username, setUsername] = useState('')
+  const [bio, setBio] = useState('')
+  const [coverPhoto, setCoverPhoto] = useState('')
+  const [links, setLinks] = useState([])
+  console.log('all data', username, bio, coverPhoto, image)
+
+  const [imageName, setImageName] = useState('')
+  const [imageType, setImageType] = useState('')
+
   // Add variables
 
   const requestFollow = (e) => {
     e.preventDefault()
     console.log('requestFollow')
   }
-  const handleImage = (event) => {}
+
+  const handleImage = (event) => {
+    setImage(event.target.files[0])
+    setImageName(event.target.files[0].name)
+    setImageType(event.target.files[0].type)
+  }
+
+  const handleCoverPhoto = (event) => {
+    setCoverPhoto(event.target.files[0])
+  }
 
   const handleSubmit = async (e) => {}
 
@@ -52,7 +70,7 @@ function CreateProfile() {
             }}
           >
             <div className="">
-              <Button className="whiteLink" component={Link} to="/">
+              <Button className="whiteLink" component={Link} to="/create">
                 Appearance
               </Button>
 
@@ -71,18 +89,25 @@ function CreateProfile() {
 
             <img
               style={{
-                maxWidth: '500px',
+                width: '150px',
                 top: '0',
                 left: '0',
               }}
-              src={imgPlaceHolder}
+              src={image ? URL.createObjectURL(image) : imgPlaceHolder}
               alt="userBGimage"
             />
-            <Button className="whiteLink" variant="contained">
-              + Upload
-            </Button>
-            <br />
 
+            <label htmlFor="formFileImage5">+ Upload</label>
+            <input
+              type="file"
+              id="formFileImage5"
+              onChange={handleImage}
+              defaultValue={image}
+              style={{ display: 'none' }}
+              required
+            />
+
+            <br />
             <br />
             <p>
               <label htmlFor="fname">Username</label>
@@ -93,6 +118,8 @@ function CreateProfile() {
               name="Username"
               placeholder="Your user name.."
               className="create-profile-input"
+              defaultValue={username}
+              onChange={(e) => setUsername(e.target.value)}
             ></input>
 
             <p>
@@ -105,6 +132,8 @@ function CreateProfile() {
               name="bio"
               rows="4"
               cols="50"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
             ></textarea>
             <p style={{ textAlign: 'right', fontSize: '11px' }}>
               <label htmlFor="w3review">0/120</label>
@@ -114,10 +143,14 @@ function CreateProfile() {
             <p style={{ textAlign: 'left', paddingBottom: '11px' }}>
               <label htmlFor="w3review">Cover photo</label>
             </p>
-
-            <Button className="whiteLink" variant="contained">
-              + Upload
-            </Button>
+            <input
+              type="file"
+              id="formFile"
+              onChange={handleCoverPhoto}
+              defaultValue=""
+              required
+            />
+            <br />
 
             <br />
             <br />
@@ -137,9 +170,16 @@ function CreateProfile() {
             <hr style={{ border: '1px solid #ccc' }} />
             <br />
             <center>
-              <Button className="whiteLink">Nevermind</Button>
-              <Button className="phase-btn" variant="contained">
-                Save
+              <Button className="whiteLink" component={Link} to="/">
+                Nevermind
+              </Button>
+              <Button
+                className="phase-btn"
+                variant="contained"
+                component={Link}
+                to="/create-links"
+              >
+                Next
               </Button>
             </center>
           </Card>

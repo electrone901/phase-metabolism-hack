@@ -4,7 +4,7 @@ import logo from '../../../images/logo.jpg'
 import { Grid, Container, Card } from '@material-ui/core'
 import './HomeGallery.css'
 
-function HomeGallery() {
+function HomeGallery({ setSelectedProfile }) {
   return (
     <div
       style={{
@@ -52,7 +52,7 @@ function HomeGallery() {
         <br />
         {/* Profiles */}
         <Card className="">
-          <ProfileList />
+          <ProfileList setSelectedProfile={setSelectedProfile} />
         </Card>
       </Container>
     </div>

@@ -1,59 +1,42 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
-import {
-  TextField,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
-  IconButton,
-  Grid,
-  Container,
-  Typography,
-  Button,
-  Chip,
-  Card,
-  StylesProvider,
-} from '@material-ui/core'
+import { Container, Chip, Card, StylesProvider } from '@material-ui/core'
 import './Profile.css'
-import userBGimage from '../../../images/userBGimage.png'
-import userImage from '../../../images/userImage.png'
+import userBGimage from '../../../images/backgroundIMG.png'
 import ENS from '../../../images/ENS.png'
-import twitter from '../../../images/twitter.png'
-import instagram from '../../../images/instagram.png'
-import website from '../../../images/website.png'
+import Twitter from '../../../images/twitter.png'
+import Instagram from '../../../images/instagram.png'
+import Website from '../../../images/website.png'
+import Banner from '../../../images/website.png'
+import GitHub from '../../../images/GitHub.png'
 import copy from '../../../images/copy.png'
 import lockedProfile from '../../../images/locked.png'
+const icons = {
+  ENS: ENS,
+  Twitter: Twitter,
+  Instagram: Instagram,
+  Website: Website,
+  Banner: Banner,
+  GitHub: GitHub,
+}
 
-function Profile({ account, contractData }) {
+function Profile({ account, currentAccount, selectedProfile }) {
   const { petId } = useParams()
-  const { isUserLocked, setIsUserLocked } = useState('')
+  const { isUserLocked, setIsUserLocked } = useState(false)
 
-  // Add state variables
-
-  useEffect(() => {
-    if (petId) {
-      getMetadata()
-      getImage()
-    }
-  }, [petId, contractData])
+  useEffect(() => {}, [])
 
   const requestFollow = (e) => {
     e.preventDefault()
     console.log('requestFollow')
   }
 
-  const getImage = async () => {}
-  const getMetadata = async () => {}
-
-  const mintNFT = async (petId) => {}
-
-  const handleChange = (event) => {}
-
-  const handleSubmit = (event) => {}
+  const visitSite = (site) => {
+    const link = site.value
+    if (link) {
+      window.open(link, '_blank')
+    }
+  }
 
   return (
     <StylesProvider injectFirst>
@@ -85,25 +68,26 @@ function Profile({ account, contractData }) {
                 position: 'absolute',
                 top: '45px',
                 left: '30px',
+                border: '3px solid white',
+                borderRadius: '13px',
+                width: '120px',
+                height: '125px',
               }}
-              src={userImage}
+              src={selectedProfile.image}
               alt="userImage"
             />
 
-            <p className="profile-username">losingmyego</p>
+            <p className="profile-username">{selectedProfile.name}</p>
 
             <p className="profile-wallet">
               0x5e1b802905c9730C8474eED020F800CC38A6A42E
               <img className="profile-wallet-copy" src={copy} alt="copy.png" />
             </p>
-            <p className="prof-description">
-              LOSINGMYEGO is an experimental artist + developer on a journey to
-              explore the unknown, strange, terrific force that drives society.
-            </p>
+            <p className="prof-description">{selectedProfile.description}</p>
             <br />
             <hr />
 
-            {!isUserLocked ? (
+            {isUserLocked ? (
               <img
                 src={lockedProfile}
                 className="profile-locked"
@@ -112,54 +96,22 @@ function Profile({ account, contractData }) {
               />
             ) : (
               <div className="profile-root">
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={ENS} alt="ENS" />}
-                  label="losingmyego.eth"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={twitter} alt="instagram" />}
-                  label="@losingmyego"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={instagram} alt="instagram" />}
-                  label="@losingmyego"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={website} alt="website" />}
-                  label="Portfolio"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={website} alt="website" />}
-                  label="Github"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={website} alt="website" />}
-                  label="Github"
-                  variant="outlined"
-                />
-
-                <Chip
-                  className="profile-chip"
-                  avatar={<img src={website} alt="website" />}
-                  label="Github"
-                  variant="outlined"
-                />
+                {selectedProfile?.attributes ? (
+                  selectedProfile.attributes.map((link, index) => (
+                    <Chip
+                      key={index}
+                      className="profile-chip"
+                      avatar={
+                        <img src={icons[link.trait_type]} alt={link.value} />
+                      }
+                      onClick={() => visitSite(link)}
+                      label={link.value ? link.value : selectedProfile.name}
+                      variant="outlined"
+                    />
+                  ))
+                ) : (
+                  <p>No Links available</p>
+                )}
               </div>
             )}
           </Card>

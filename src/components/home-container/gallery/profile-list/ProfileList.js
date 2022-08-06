@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import './ProfileList.css'
 import {
   Typography,
@@ -6,64 +7,40 @@ import {
   IconButton,
   Grid,
   Card,
-  CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
 } from '@material-ui/core'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import ShareIcon from '@mui/icons-material/Share'
-import { Link } from 'react-router-dom'
+
 import { apiKey } from '../../../../APIKEYS'
 import CircularStatic from '../../../commons/CircularProgressWithLabel'
+import { displayAll } from '../../../../Phase/displayAll'
 
-function ProfileList({ account, contractData }) {
+function ProfileList({ account, contractData, setSelectedProfile }) {
   const [loading, setLoading] = useState(false)
-  const [swapsData, setSwapsData] = useState([])
+  const history = useHistory()
+  const [profiles, setProfiles] = useState([])
 
   useEffect(() => {
-    const loadSwapList = async () => {
+    const loaddata = async () => {
       try {
         setLoading(true)
-        let cids = await fetch('https://api.nft.storage', {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-        })
-        cids = await cids.json()
-        console.log(' cids', cids)
-        const temp = []
-        for (let cid of cids.value) {
-          if (cid?.cid) {
-            let data = await fetch(
-              `https://ipfs.io/ipfs/${cid.cid}/metadata.json`,
-            )
-            data = await data.json()
-            let dataSplit = data.description.split(',')
-            data.description = dataSplit[0]
-            data.userAccount = dataSplit[1]
-
-            const getImage = (ipfsURL) => {
-              if (!ipfsURL) return
-              ipfsURL = ipfsURL.split('://')
-              return 'https://ipfs.io/ipfs/' + ipfsURL[1]
-            }
-            data.image = await getImage(data.image)
-            data.cid = cid.cid
-            data.created = cid.created
-            temp.push(data)
-          }
-        }
-        setSwapsData(temp)
+        const getAllProfiles = await displayAll()
+        setProfiles(getAllProfiles)
         setLoading(false)
       } catch (error) {
         console.log(error)
         setLoading(false)
       }
     }
-    loadSwapList()
+    loaddata()
   }, [])
+
+  const details = (profile) => {
+    localStorage.removeItem('selectedProfile')
+    localStorage.setItem('selectedProfile', profile)
+    setSelectedProfile(profile)
+    history.push('/profile/details')
+  }
 
   return (
     <div style={{ minHeight: '60vh' }}>
@@ -72,18 +49,14 @@ function ProfileList({ account, contractData }) {
       ) : (
         <div>
           <Grid container spacing={24}>
-            {swapsData.length ? (
-              swapsData.map((swap, index) => (
+            {profiles.length ? (
+              profiles.map((profile, index) => (
                 <Grid item md={3} spacing={1} className="swap-card">
-                  <Card
-                    sx={{ maxWidth: 200 }}
-                    component={Link}
-                    to={`/profile/${swap.cid}`}
-                  >
+                  <Card sx={{ maxWidth: 200 }} onClick={() => details(profile)}>
                     <CardMedia
                       component="img"
                       height="194"
-                      image={swap.image}
+                      image={profile.image}
                       alt="Profile"
                     />
                     <CardContent>
@@ -92,25 +65,9 @@ function ProfileList({ account, contractData }) {
                         color="text.secondary"
                         className="card-header-swap"
                       >
-                        {swap.description}
+                        {profile.name}
                       </Typography>
                     </CardContent>
-                    {/* <CardActions disableSpacing>
-                      <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                      </IconButton>
-                      <IconButton aria-label="share">
-                        <ShareIcon />
-                      </IconButton>
-                      <Button
-                        variant="contained"
-                        size="small"
-
-                        // className="swap-msg-btn"
-                      >
-                        View
-                      </Button>
-                    </CardActions> */}
                   </Card>
                 </Grid>
               ))
