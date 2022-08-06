@@ -1,21 +1,17 @@
-const { phase, signer } = require('./utils/init.js')
-const { ethers } = require('ethers')
+const { phase } = require('./utils/init.js')
 
-const { abi } = require('./utils/Phase.json')
+async function doesFollow(follower, profile_username) {
 
-async function doesFollow(follower, following) {
-
-    let profile_address = await phase.phase(following)
-
-    if (profile_address === ethers.constants.AddressZero) {
-        return "User doesn't have profile"
+    try {
+        let profile_address = await phase.usernames(profile_username)
+    } catch {
+        return "Please enter follower ADDRESS, and profile USERNAME"
     }
+    
 
-    const profile = new ethers.Contract(profile_address, abi, signer)
+    let follows =  await phase.isFollowing(follower, profile_address)
 
-    let balance = await profile.balanceOf(follower)
-
-    return balance > 0
+    return follows
 }
 
 exports.doesFollow = doesFollow
