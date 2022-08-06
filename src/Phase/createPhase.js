@@ -1,7 +1,7 @@
 const { phase } = require('./utils/init.js')
 const { ethers } = require('ethers')
 
-/// TEST ARGS HELLO
+/// TEST ARGS
 let username = "Rite"
 let avatar = "https://64.media.tumblr.com/6b422dc93e53d8d54939021650e3c117/tumblr_pwiyi4VAM21qaxphpo1_1280.jpg"
 let banner = "https://ih1.redbubble.net/image.382904608.9559/flat,1000x1000,075,f.u1.jpg"
@@ -30,5 +30,7 @@ async function createPhase(address, username, avatar, banner, bio, links) {
     }
 }
 
+/// TEST CALL
+//createProfile("0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De", username, avatar, banner, bio, links)
 
 exports.createPhase = createPhase
