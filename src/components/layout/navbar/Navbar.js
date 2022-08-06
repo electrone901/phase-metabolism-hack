@@ -19,7 +19,7 @@ import { StylesProvider } from '@material-ui/core/styles'
 import './Navbar.css'
 import logo from '../../../images/logo.jpg'
 
-export const Navbar = () => {
+export const Navbar = ({ connectWallet }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
@@ -103,7 +103,7 @@ export const Navbar = () => {
   return (
     <StylesProvider injectFirst>
       <div className="grow">
-        <AppBar position="static" className='nav-bar'>
+        <AppBar position="static" className="nav-bar">
           <Toolbar>
             <Link to="/" className="whiteLink">
               <img src={logo} alt="logo" className="logo" />
@@ -139,8 +139,7 @@ export const Navbar = () => {
             <Button
               variant="contained"
               color="secondary"
-              component={Link}
-              to="/create"
+              onClick={connectWallet}
             >
               Login
             </Button>

@@ -19,10 +19,10 @@ import {
   Card,
   StylesProvider,
 } from '@material-ui/core'
-import './CreateProfile.css'
+import './CreateLinks.css'
 import imgPlaceHolder from '../../images/imgPlaceHolder.png'
 
-function CreateProfile() {
+function CreateLinks() {
   const { petId } = useParams()
   const { isUserLocked, setIsUserLocked } = useState('')
   // Add variables
@@ -51,88 +51,76 @@ function CreateProfile() {
               textAlign: 'start',
             }}
           >
+            <h3>LINKS</h3>
             <div className="">
-              <Button className="whiteLink" component={Link} to="/">
+              <Button className="whiteLink-no-active" component={Link} to="/">
                 Appearance
               </Button>
 
-              <Button
-                className="whiteLink-no-active"
-                component={Link}
-                to="/create-links"
-              >
+              <Button className="whiteLink" component={Link} to="/">
                 Links
               </Button>
             </div>
 
             <br />
             <hr style={{ border: '1px solid #ccc' }} />
-            <br />
-
-            <img
-              style={{
-                maxWidth: '500px',
-                top: '0',
-                left: '0',
-              }}
-              src={imgPlaceHolder}
-              alt="userBGimage"
-            />
-            <Button className="whiteLink" variant="contained">
-              + Upload
-            </Button>
-            <br />
 
             <br />
             <p>
-              <label htmlFor="fname">Username</label>
+              <label htmlFor="fname">Twitter</label>
             </p>
             <input
               type="text"
               id="fname"
               name="Username"
-              placeholder="Your user name.."
+              placeholder="@"
               className="create-profile-input"
             ></input>
 
+            <br />
             <p>
-              <label htmlFor="w3review">Bio</label>
+              <label htmlFor="fname">Instagram</label>
             </p>
-            <textarea
-              className="create-profile-input"
+            <input
               type="text"
-              id="bio"
-              name="bio"
-              rows="4"
-              cols="50"
-            ></textarea>
-            <p style={{ textAlign: 'right', fontSize: '11px' }}>
-              <label htmlFor="w3review">0/120</label>
-            </p>
+              id="fname"
+              name="Username"
+              placeholder="@"
+              className="create-profile-input"
+            ></input>
+            <br />
+            <br />
 
             <br />
-            <p style={{ textAlign: 'left', paddingBottom: '11px' }}>
-              <label htmlFor="w3review">Cover photo</label>
+            <p>
+              <label htmlFor="fname">Description</label>
             </p>
+            <input
+              type="text"
+              id="fname"
+              name="Description"
+              placeholder=""
+              className="add-link-input"
+            ></input>
+            <p>
+              <label htmlFor="fname">URL</label>
+            </p>
+            <input
+              type="text"
+              id="fname"
+              name="URL"
+              placeholder=""
+              className="add-link-input"
+            ></input>
 
+            <br />
+            <br />
             <Button className="whiteLink" variant="contained">
-              + Upload
+              + Add new link
             </Button>
 
             <br />
             <br />
-            <p
-              style={{
-                textAlign: 'left',
-                paddingBottom: '11px',
-                fontSize: '11px',
-              }}
-            >
-              <label htmlFor="w3review">
-                Upload a cover photo. Max size 20MB.
-              </label>
-            </p>
-
             <br />
             <hr style={{ border: '1px solid #ccc' }} />
             <br />
@@ -149,4 +137,4 @@ function CreateProfile() {
   )
 }
 
-export default CreateProfile
+export default CreateLinks
