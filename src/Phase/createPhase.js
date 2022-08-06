@@ -13,7 +13,7 @@ async function createPhase(address, username, avatar, banner, bio, links) {
 
     try {
         // Get address of phase for user (should be zero address)
-        let profile_address = await phase.phases(address)
+        let profile_address = await phase.phase(address)
 
         //  Require profile_address == zero address
         if (profile_address !== ethers.constants.AddressZero) {
@@ -23,14 +23,7 @@ async function createPhase(address, username, avatar, banner, bio, links) {
         // Create profile
         let tx = await phase.createProfile(address, username, avatar, banner, bio, links )
 
-        console.log(tx.hash)
-        // If you want to wait for tx to confirm
-        // Comment out if not
-        await tx.wait()
-
-
-        // Do something... e.g. confirmation message?
-        return "Profile Created!"
+        return tx
 
     } catch (error) {
         console.log(error)
