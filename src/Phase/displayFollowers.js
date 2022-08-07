@@ -1,23 +1,30 @@
 const { phase } = require('./utils/init.js')
 const { displayPhase } = require('./displayPhase.js')
+const { ethers } = require('ethers')
 
 // Displays all people following address
 async function displayFollowers(address) {
-    let totalTokens = await phase.phaseID(address)
-
-    if (totalTokens == 1) {
+    let totalTokens = Number(await phase.phaseID(address))
+ 
+    if (totalTokens == 2) {
         return "No Followers!"
     }
 
     let followers = []
 
     let follower, metadata
-    for(let i = 1; i < totalTokens; i ++) {
-        follower = await phase.ownerOf(address, i)
+    for(let i = 2; i < totalTokens; i++) {
 
-        metadata = await displayPhase(follower)
+        try {
+            follower = await phase.ownerOf(address, i)
 
-        followers.push(metadata)
+            metadata = await displayPhase(follower)
+
+            followers.push(metadata)
+        } catch {
+            
+        }
+        
     }
 
 
