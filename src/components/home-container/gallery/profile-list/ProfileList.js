@@ -66,7 +66,7 @@ function ProfileList({ account, contractData, setSelectedProfile }) {
                         color="#1C1A19"
                         className="card-header-swap"
                       >
-                        {profile.name}
+                        {profile.name || profile.username}
                       </Typography>
                     </CardContent>
                   </Card>
