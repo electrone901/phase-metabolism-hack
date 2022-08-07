@@ -6,7 +6,7 @@ async function hasPhase(address) {
 
     let answer = phase_address !== ethers.constants.AddressZero
 
-    console.log(answer)
+    return answer
 }
 
 exports.hasPhase = hasPhase
