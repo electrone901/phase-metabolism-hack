@@ -127,7 +127,7 @@ function CreateProfile({
               id="formFileImage5"
               onChange={handleImage}
               defaultValue={image}
-              style={{ display: 'none' }}
+              // style={{ display: 'none' }}
               required
             />
 

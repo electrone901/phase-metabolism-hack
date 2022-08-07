@@ -13,13 +13,15 @@ import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
 import backgroundimgApp from '../src/images/phase-bg.png'
 
 // FUNCTIONS
-import { displayAll } from './old-Phase/displayAll'
-import { follow } from './old-Phase/follow'
+import { displayAll } from './Phase/displayAll'
+import { follow } from './Phase/follow'
+import { hasPhase } from './Phase/hasPhase'
 
 const { ethers } = require('ethers')
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState('')
+  const [hasProfile, setHasProfile] = useState('')
   const [allProfiles, setAllProfiles] = useState([])
   const [selectedProfile, setSelectedProfile] = useState('')
 
@@ -35,9 +37,20 @@ function App() {
 
     const signer = provider.getSigner()
     const address = await signer.getAddress()
-    console.log('🚀 address', address)
+    console.log('🚀 ~ file: App.js ~ line 40 ~ connectWal ~ address', address)
     setCurrentAccount(address)
+
     localStorage.setItem('currentAccountLocalStorage', address)
+
+    const resHasPhase = await hasPhase(address)
+    console.log('resHasPhase', resHasPhase)
+    setHasProfile(resHasPhase)
+
+    // const t = await hasPhase('0x16f30F46e97252761C7FAb419B498Aa24032743c')
+    // console.log('t', t)
+    // runs hasPhase(address)
+    //        true: 2 tabs: home and profile
+    //        false: 2 rabs: home and create profile
   }
 
   const disconnectWallet = async () => {
@@ -67,6 +80,7 @@ function App() {
           connectWallet={connectWallet}
           disconnectWallet={disconnectWallet}
           currentAccount={currentAccount}
+          hasProfile={hasProfile}
         />
 
         <Route exact path="/">

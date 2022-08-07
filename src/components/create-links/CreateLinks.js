@@ -23,10 +23,10 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import './CreateLinks.css'
 import { apiKey } from './APIKEYS'
 import { NFTStorage, File } from 'nft.storage'
-import { createPhase } from '../../old-Phase/createPhase'
+import { createPhase } from '../../Phase/createPhase'
 
 function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
-  console.log(" image", image)
+  console.log(' image', image)
   const [twitter, setTwitter] = useState('')
   const [loading, setLoading] = useState(false)
   const [instagram, setInstagram] = useState('')
@@ -40,27 +40,32 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
     e.preventDefault()
   }
 
-
-
   const createProfile = async () => {
     let user_name = username ? username : 'electrone'
-    let avatar = image
-      ? image
-      : 'https://i.imgur.com/62G0yQ0.jpeg'
+    let avatar = image ? image : 'https://i.imgur.com/62G0yQ0.jpeg'
     let banner = 'https://i.imgur.com/62G0yQ0.jpeg'
 
     let bio_ = bio
       ? bio
       : 'I am a software developer who enjoys web and mobile development through universal components. By day I love to code and drinking tea. At night I sleep.'
     let links = linkArray
+      ? linkArray
+      : [
+          [
+            'Website',
+            'https://transak.gitbook.io/transak-docs/quick-guides/setting-up-a-quick-demo-integration',
+          ],
+        ]
     let address = currentAccount
+      ? currentAccount
+      : '0x891352608735f630AF999ba572fd57511137e758'
 
     const res = await createPhase(
       address,
       user_name,
       avatar,
       banner,
-      bio,
+      bio_,
       links,
     )
 

@@ -19,7 +19,12 @@ import { StylesProvider } from '@material-ui/core/styles'
 import './Navbar.css'
 import logo from '../../../images/logo.jpg'
 
-export const Navbar = ({ currentAccount, connectWallet, disconnectWallet }) => {
+export const Navbar = ({
+  currentAccount,
+  connectWallet,
+  disconnectWallet,
+  hasProfile,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
@@ -113,16 +118,39 @@ export const Navbar = ({ currentAccount, connectWallet, disconnectWallet }) => {
                 Phase
               </Typography>
             </Link>
-            <Button className="whiteLink" component={Link} to="/">
+
+            {currentAccount ? (
+              <>
+                <Button className="whiteLink" component={Link} to="/">
+                  Home
+                </Button>
+
+                {hasProfile ? (
+                  <Button className="whiteLink" component={Link} to="/my-profile">
+                    Profile
+                  </Button>
+                ) : (
+                  <Button className="whiteLink" component={Link} to="/create">
+                    Create
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                <Button className="whiteLink" component={Link} to="/">
+                  Home
+                </Button>
+              </>
+            )}
+            {/* <Button className="whiteLink" component={Link} to="/">
               Home
             </Button>
 
             <Button className="whiteLink" component={Link} to="/create">
               Create
-            </Button>
+            </Button> */}
 
             <div className="grow" />
-
             {/* SEARCH NAV */}
             {/* <div className="header__input">
               <input
