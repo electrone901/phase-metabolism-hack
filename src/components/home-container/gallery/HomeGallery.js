@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ProfileList from './profile-list/ProfileList'
-import logo from '../../../images/logo.jpg'
+
+import logo from '../../../images/logo-large.png'
 import { Grid, Container, Card } from '@material-ui/core'
 import './HomeGallery.css'
 
@@ -18,17 +19,12 @@ function HomeGallery({ setSelectedProfile }) {
         <Container>
           <div className="root">
             <Grid container spacing={3}>
-              <Grid item xs={5} className="outer">
-                <img src={logo} className="logo" alt="" />
-                <p className="home-title">Phase</p>
+            <Grid item xs={5} className="outer">
+                <img src={logo} className="logo-hero" alt="logo-hero" />
               </Grid>
               <Grid item xs={7}>
                 <p className="home-text-intro">
-                  We don't make mistakes we just have happy little accidents. I
-                  like to beat the brush. We wash our brush with odorless
-                  thinner. You don't want to kill all your dark areas they are
-                  very important. We'll put some happy little leaves here and
-                  there.
+                Connection develops in phases. Click profiles to see who people are on the outside, and follow them to learn more.
                 </p>
               </Grid>
             </Grid>

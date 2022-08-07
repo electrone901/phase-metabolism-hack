@@ -14,6 +14,7 @@ import userBGimage from '../../../images/backgroundIMG.png'
 import copy from '../../../images/copy.png'
 import lockedProfile from '../../../images/locked.png'
 import { doesFollow } from '../../../Phase/doesFollow'
+import { follow } from '../../../Phase/follow'
 import MyLinks from './MyLinks'
 import Followers from './Followers'
 import Following from './Following'
@@ -24,26 +25,32 @@ function Profile({ account, currentAccount, selectedProfile }) {
     selectedProfile,
   )
   const { petId } = useParams()
-  const { isUserLocked, setIsUserLocked } = useState(false)
+  const { showProfile, setShowProfile } = useState(false)
 
   useEffect(() => {
     checkFollow()
   }, [])
 
   const checkFollow = async (e) => {
-    const followerAddress = currentAccount
-    const accountToFollowAddress = '0x11760DB13aE3Aa5Bca17fC7D62172be2A2Ea9C11'
+    // const followerAddress = currentAccount
+    // const accountToFollowAddress = '0x11760DB13aE3Aa5Bca17fC7D62172be2A2Ea9C11'
 
+    console.log('checkFollow')
     const user1 = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
     const user2 = '0x16f30F46e97252761C7FAb419B498Aa24032743c'
     const res = await doesFollow(user1, user2)
-    // const res = await doesFollow(followerAddress, accountToFollowAddress)
     console.log('9999 checkFollow ~ res', res)
+
+    // const res = await doesFollow(followerAddress, accountToFollowAddress)
   }
 
-  const requestFollow = (e) => {
-    e.preventDefault()
-    console.log('requestFollow')
+  const requestFollow = async (e) => {
+    const user1 = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
+    const user2 = '0x6EE6D1DF5E2DccD784f7a4bf8eCE5Dbc1babBD45'
+
+    const isFollower = await follow(user1, user2)
+    console.log(' isFollower', isFollower)
+    // setShowProfile(isFollower)
   }
 
   const visitSite = (site) => {
@@ -126,7 +133,6 @@ function Profile({ account, currentAccount, selectedProfile }) {
 
             {value === 0 && (
               <MyLinks
-                isUserLocked={isUserLocked}
                 requestFollow={requestFollow}
                 lockedProfile={lockedProfile}
                 selectedProfile={selectedProfile}

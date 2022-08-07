@@ -26,7 +26,6 @@ import { NFTStorage, File } from 'nft.storage'
 import { createPhase } from '../../Phase/createPhase'
 
 function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
-  console.log(' image', image)
   const [twitter, setTwitter] = useState('')
   const [loading, setLoading] = useState(false)
   const [instagram, setInstagram] = useState('')
@@ -68,8 +67,6 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       bio_,
       links,
     )
-
-    console.log(' res', res)
     setLoading(false)
     //   history.push('/')
   }

@@ -14,7 +14,6 @@ import backgroundimgApp from '../src/images/phase-bg.png'
 
 // FUNCTIONS
 import { displayAll } from './Phase/displayAll'
-import { follow } from './Phase/follow'
 import { hasPhase } from './Phase/hasPhase'
 
 const { ethers } = require('ethers')

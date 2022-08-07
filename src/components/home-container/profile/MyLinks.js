@@ -21,7 +21,7 @@ const icons = {
   instagram: Instagram,
   website: Website,
   banner: Banner,
-  gitHub: GitHub,
+  github: GitHub,
 }
 
 function MyLinks({

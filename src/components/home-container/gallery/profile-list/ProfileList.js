@@ -43,26 +43,26 @@ function ProfileList({ account, contractData, setSelectedProfile }) {
   }
 
   return (
-    <div style={{ minHeight: '60vh' }}>
+    <div style={{ minHeight: '60vh', borderRadius: '24px' }}>
       {loading ? (
         <CircularStatic />
       ) : (
         <div>
-          <Grid container spacing={24}>
+          <Grid container spacing={40}>
             {profiles.length ? (
               profiles.map((profile, index) => (
                 <Grid item md={3} spacing={1} className="swap-card">
-                  <Card sx={{ maxWidth: 200 }} onClick={() => details(profile)}>
+                  <Card sx={{ maxWidth: 240 }} onClick={() => details(profile)}>
                     <CardMedia
                       component="img"
-                      height="194"
+                      height="240"
                       image={profile.image}
                       alt="Profile"
                     />
                     <CardContent>
                       <Typography
-                        variant="body2"
-                        color="text.secondary"
+                        font-size="24px"
+                        color="#1C1A19"
                         className="card-header-swap"
                       >
                         {profile.name}

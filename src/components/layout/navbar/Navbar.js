@@ -110,15 +110,6 @@ export const Navbar = ({
       <div className="grow">
         <AppBar position="static" className="nav-bar">
           <Toolbar>
-            <Link to="/" className="whiteLink">
-              <img src={logo} alt="logo" className="logo" />
-            </Link>
-            <Link to="/" className="whiteLink">
-              <Typography className="title" variant="h6" noWrap>
-                Phase
-              </Typography>
-            </Link>
-
             {currentAccount ? (
               <>
                 <Button className="whiteLink" component={Link} to="/">
@@ -126,7 +117,11 @@ export const Navbar = ({
                 </Button>
 
                 {hasProfile ? (
-                  <Button className="whiteLink" component={Link} to="/my-profile">
+                  <Button
+                    className="whiteLink"
+                    component={Link}
+                    to="/my-profile"
+                  >
                     Profile
                   </Button>
                 ) : (

@@ -37,7 +37,7 @@
 }
 
 .home-text-intro {
-    max-width: 90%;
+    max-width: 70%;
     padding-top: 2.5rem;
     font-size: 1rem;
     color: #4a4644;
@@ -87,4 +87,8 @@ i {
 .search-icon {
     font-size: 1.2rem;
     padding-left: 8px;
+}
+
+.logo-hero {
+    width: 30rem;
 }

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import './Footer.css'
-import logo from '../../../images/logo.jpg'
+import logo from '../../../images/logo-small.png'
 
 function Footer() {
   return (
@@ -34,9 +34,7 @@ function Footer() {
               <li>
                 <a href="#">Terms & Conditions</a>
               </li>
-              <li>
-                <a href="#">Career</a>
-              </li>
+          
             </ul>
           </div>
 
