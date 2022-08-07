@@ -23,7 +23,7 @@ import { displayPhase } from '../../../Phase/displayPhase'
 function MyProfile({ account, currentAccount, selectedProfile }) {
   console.log(
     '🚀 ~ file: Profile.js ~ line 26 ~ Profile ~ selectedProfile',
-    selectedProfile
+    selectedProfile,
   )
   const { petId } = useParams()
   const [userProfile, setUserProfile] = useState({})
@@ -34,8 +34,8 @@ function MyProfile({ account, currentAccount, selectedProfile }) {
   }, [])
 
   const getProfile = async () => {
-    const user = await displayPhase(currentAccount);
-    console.warn(user);
+    const user = await displayPhase(currentAccount)
+    console.warn(user)
     setUserProfile(user)
   }
 
@@ -66,8 +66,7 @@ function MyProfile({ account, currentAccount, selectedProfile }) {
     const link = site.value
     if (link) {
       window.open(link, '_blank')
-    }
-    else {
+    } else {
       window.open(site, '_blank')
     }
   }
@@ -95,12 +94,13 @@ function MyProfile({ account, currentAccount, selectedProfile }) {
           >
             <img
               style={{
-                maxWidth: '500px',
+                width: '100%',
+                height: '160px',
                 position: 'relative',
                 top: '0',
                 left: '0',
               }}
-              src={userBGimage}
+              src={userProfile.banner || userBGimage}
               alt="userBGimage"
             />
             <img
@@ -117,7 +117,9 @@ function MyProfile({ account, currentAccount, selectedProfile }) {
               alt="userImage"
             />
 
-            <p className="profile-username">{userProfile.name || userProfile.username}</p>
+            <p className="profile-username">
+              {userProfile.name || userProfile.username}
+            </p>
             <p className="profile-wallet">
               {userProfile.address
                 ? userProfile.address
@@ -125,7 +127,9 @@ function MyProfile({ account, currentAccount, selectedProfile }) {
 
               <img className="profile-wallet-copy" src={copy} alt="copy.png" />
             </p>
-            <p className="prof-description">{userProfile.description || userProfile.bio}</p>
+            <p className="prof-description">
+              {userProfile.description || userProfile.bio}
+            </p>
 
             <Paper square>
               <Tabs

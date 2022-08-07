@@ -22,7 +22,7 @@ import Following from './Following'
 function Profile({ account, currentAccount, selectedProfile }) {
   console.log(
     '🚀 ~ file: Profile.js ~ line 26 ~ Profile ~ selectedProfile',
-    selectedProfile
+    selectedProfile,
   )
   const { petId } = useParams()
   const [showProfile, setShowProfile] = useState(false)
@@ -58,8 +58,7 @@ function Profile({ account, currentAccount, selectedProfile }) {
     const link = site.value
     if (link) {
       window.open(link, '_blank')
-    }
-    else {
+    } else {
       window.open(site, '_blank')
     }
   }
@@ -87,12 +86,13 @@ function Profile({ account, currentAccount, selectedProfile }) {
           >
             <img
               style={{
-                maxWidth: '500px',
+                width: '100%',
+                height: '160px',
                 position: 'relative',
                 top: '0',
                 left: '0',
               }}
-              src={userBGimage}
+              src={selectedProfile.banner || userBGimage}
               alt="userBGimage"
             />
             <img
@@ -109,7 +109,9 @@ function Profile({ account, currentAccount, selectedProfile }) {
               alt="userImage"
             />
 
-            <p className="profile-username">{selectedProfile.name || selectedProfile.username}</p>
+            <p className="profile-username">
+              {selectedProfile.name || selectedProfile.username}
+            </p>
             <p className="profile-wallet">
               {selectedProfile.address
                 ? selectedProfile.address
@@ -117,7 +119,9 @@ function Profile({ account, currentAccount, selectedProfile }) {
 
               <img className="profile-wallet-copy" src={copy} alt="copy.png" />
             </p>
-            <p className="prof-description">{selectedProfile.description || selectedProfile.bio}</p>
+            <p className="prof-description">
+              {selectedProfile.description || selectedProfile.bio}
+            </p>
 
             {showProfile ? (
               <>

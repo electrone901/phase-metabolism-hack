@@ -11,10 +11,12 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
   const [loading, setLoading] = useState(false)
   const [instagram, setInstagram] = useState('')
   const [linkArray, setLinkArray] = useState([])
+  console.log('MY  linkArray', linkArray)
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
 
-  const createProfile = async () => {
+  const createProfile = async (linksArray) => {
+    console.log('linksArray', linksArray)
     let user_name = username ? username : 'electrone'
     let avatar = image ? image : 'https://i.imgur.com/62G0yQ0.jpeg'
     let banner = coverPhoto ? coverPhoto : 'https://i.imgur.com/62G0yQ0.jpeg'
@@ -22,8 +24,8 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
     let bio_ = bio
       ? bio
       : 'I am a software developer who enjoys web and mobile development through universal components. By day I love to code and drinking tea. At night I sleep.'
-    let links = linkArray
-      ? linkArray
+    let links = linksArray
+      ? linksArray
       : [
           [
             'Website',
@@ -35,6 +37,7 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       : '0x891352608735f630AF999ba572fd57511137e758'
 
     console.warn(address, user_name, avatar, banner, bio_, links)
+
     const res = await createPhase(
       address,
       user_name,
@@ -43,6 +46,7 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       bio_,
       links,
     )
+    await res.wait()
     console.log(res)
     setLoading(false)
     history.push('/')
@@ -63,9 +67,8 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       instagramData = ['Instagram', `https://www.instagram.com/${instagram}`]
       newArr.push(instagramData)
     }
-
     setLinkArray([...linkArray, ...newArr])
-    createProfile()
+    createProfile([...linkArray, ...newArr])
   }
 
   const addTwoInputs = () => {
