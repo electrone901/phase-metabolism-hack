@@ -1,5 +1,13 @@
 import React from 'react'
-import { Container, Chip, Card, Paper, Tabs, Tab, StylesProvider } from '@material-ui/core'
+import {
+  Container,
+  Chip,
+  Card,
+  Paper,
+  Tabs,
+  Tab,
+  StylesProvider,
+} from '@material-ui/core'
 import ENS from '../../../images/ENS.png'
 import Twitter from '../../../images/twitter.png'
 import Instagram from '../../../images/instagram.png'
@@ -8,15 +16,21 @@ import Banner from '../../../images/website.png'
 import GitHub from '../../../images/GitHub.png'
 
 const icons = {
-  ENS: ENS,
-  Twitter: Twitter,
-  Instagram: Instagram,
-  Website: Website,
-  Banner: Banner,
-  GitHub: GitHub,
+  ens: ENS,
+  twitter: Twitter,
+  instagram: Instagram,
+  website: Website,
+  banner: Banner,
+  gitHub: GitHub,
 }
 
-function MyLinks({ isUserLocked, requestFollow, lockedProfile, selectedProfile, visitSite }) {
+function MyLinks({
+  isUserLocked,
+  requestFollow,
+  lockedProfile,
+  selectedProfile,
+  visitSite,
+}) {
   return (
     <div>
       {isUserLocked ? (
@@ -34,7 +48,10 @@ function MyLinks({ isUserLocked, requestFollow, lockedProfile, selectedProfile, 
                 key={index}
                 className="profile-chip"
                 avatar={
-                  <img src={icons[link.trait_type]} alt={link.value} />
+                  <img
+                    src={icons[link.trait_type.toLowerCase()]}
+                    alt={link.value}
+                  />
                 }
                 onClick={() => visitSite(link)}
                 label={link.value ? link.value : selectedProfile.name}

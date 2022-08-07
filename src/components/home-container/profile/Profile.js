@@ -101,7 +101,10 @@ function Profile({ account, currentAccount, selectedProfile }) {
             <p className="profile-username">{selectedProfile.name}</p>
 
             <p className="profile-wallet">
-              0x5e1b802905c9730C8474eED020F800CC38A6A42E
+              {selectedProfile.address
+                ? selectedProfile.address
+                : '0x5e1b802905c9730C8474eED020F800CC38A6A42E'}
+
               <img className="profile-wallet-copy" src={copy} alt="copy.png" />
             </p>
             <p className="prof-description">{selectedProfile.description}</p>
