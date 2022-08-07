@@ -9,4 +9,4 @@ async function hasPhase(address) {
     console.log(answer)
 }
 
-hasPhase('0xea674fdde714fd979de3edf0f56aa9716b898ec8')
+exports.hasPhase = hasPhase
