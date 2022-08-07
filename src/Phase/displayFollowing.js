@@ -10,13 +10,18 @@ async function displayFollowing(address) {
     let follows, user, metadata, followers = []
     for(let i = 0; i < total; i++) {
         user = allUsers[i]
+        
+        if (user !== address) {
+            follows = await phase.isFollowing( address, user )
 
-        follows = await phase.isFollowing( address, user )
-        if (follows) {
-            metadata = await displayPhase(user)
-            
-            followers.push(metadata)
+            if (follows) {
+                metadata = await displayPhase(user)
+
+                followers.push(metadata)
+            } 
+
         }
+        
     }
 
     return followers
