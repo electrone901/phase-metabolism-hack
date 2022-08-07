@@ -1,17 +1,16 @@
 const { phase } = require('./utils/init.js')
+const { ethers } = require('ethers')
 
-async function doesFollow(follower, profile_username) {
+async function doesFollow(follower, following) {
 
-    try {
-        let profile_address = await phase.usernames(profile_username)
-    } catch {
-        return "Please enter follower ADDRESS, and profile USERNAME"
-    }
-    
+    if(ethers.utils.isAddress(follower) && ethers.utils.isAddress(following)) {
+        let follows =  await phase.isFollowing(follower, following)
 
-    let follows =  await phase.isFollowing(follower, profile_address)
+        return follows
 
-    return follows
+    } else {
+        return "Please enter adresses as args"
+    } 
 }
 
 exports.doesFollow = doesFollow

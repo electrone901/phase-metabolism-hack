@@ -4,7 +4,7 @@ const { abi } = require('./MetaPhase.json')
 
 const { alchemy, privateKey } = require('./config.json')
 
-const phase_address = "0xa1f4d3f7c5c144f239cf044589f4d8c6205049a3"
+const phase_address = "0xd7606503462d66daae54884ad684e5a7e17148d9"
 
 const provider = new ethers.providers.JsonRpcProvider(alchemy)
 const signer = new ethers.Wallet(privateKey, provider);
