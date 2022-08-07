@@ -25,32 +25,33 @@ function Profile({ account, currentAccount, selectedProfile }) {
     selectedProfile,
   )
   const { petId } = useParams()
-  const { showProfile, setShowProfile } = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
 
   useEffect(() => {
     checkFollow()
   }, [])
 
   const checkFollow = async (e) => {
-    // const followerAddress = currentAccount
-    // const accountToFollowAddress = '0x11760DB13aE3Aa5Bca17fC7D62172be2A2Ea9C11'
+    const follower = currentAccount
+    // console.log(
+    //   '🚀 ~ file: Profile.js ~ line 36 ~ checkFollow ~ currentAccount',
+    //   currentAccount,
+    // )
+    // console.log('selectedProfile.address', selectedProfile.address)
 
-    console.log('checkFollow')
-    const user1 = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
-    const user2 = '0x16f30F46e97252761C7FAb419B498Aa24032743c'
-    const res = await doesFollow(user1, user2)
-    console.log('9999 checkFollow ~ res', res)
+    // const res = await doesFollow(follower, selectedProfile.address)
 
-    // const res = await doesFollow(followerAddress, accountToFollowAddress)
+    // setShowProfile(res)
   }
 
-  const requestFollow = async (e) => {
-    const user1 = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
-    const user2 = '0x6EE6D1DF5E2DccD784f7a4bf8eCE5Dbc1babBD45'
-
-    const isFollower = await follow(user1, user2)
-    console.log(' isFollower', isFollower)
-    // setShowProfile(isFollower)
+  const requestFollow = async () => {
+    console.log('tess')
+    const follower = currentAccount
+    // const isFollower = await follow(follower, selectedProfile.address)
+    // console.log(' isFollower', isFollower)
+    const a = await setTimeout(function () {
+      setShowProfile(true)
+    }, 2000)
   }
 
   const visitSite = (site) => {
@@ -106,7 +107,6 @@ function Profile({ account, currentAccount, selectedProfile }) {
             />
 
             <p className="profile-username">{selectedProfile.name}</p>
-
             <p className="profile-wallet">
               {selectedProfile.address
                 ? selectedProfile.address
@@ -116,31 +116,44 @@ function Profile({ account, currentAccount, selectedProfile }) {
             </p>
             <p className="prof-description">{selectedProfile.description}</p>
 
-            <Paper square>
-              <Tabs
-                value={value}
-                indicatorColor="primary"
-                textColor="primary"
-                onChange={handleChange}
-                aria-label="disabled tabs example"
-              >
-                <Tab label="Profile" />
-                <Tab label="Followers" />
-                <Tab label="Following" />
-              </Tabs>
-            </Paper>
-            <hr />
-
-            {value === 0 && (
-              <MyLinks
-                requestFollow={requestFollow}
-                lockedProfile={lockedProfile}
-                selectedProfile={selectedProfile}
-                visitSite={visitSite}
+            {showProfile ? (
+              <>
+                <Paper square>
+                  <Tabs
+                    value={value}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    onChange={handleChange}
+                    aria-label="disabled tabs example"
+                  >
+                    <Tab label="Profile" />
+                    <Tab label="Followers" />
+                    <Tab label="Following" />
+                  </Tabs>
+                </Paper>
+                <hr />
+                {value === 0 && (
+                  <MyLinks
+                    requestFollow={requestFollow}
+                    lockedProfile={lockedProfile}
+                    selectedProfile={selectedProfile}
+                    visitSite={visitSite}
+                  />
+                )}
+                {value === 1 && <Followers />}
+                {value === 2 && <Following />}
+              </>
+            ) : (
+              <img
+                style={{
+                  width: '100%',
+                  paddingTop: '1rem',
+                }}
+                src={lockedProfile}
+                alt="userImage"
+                onClick={requestFollow}
               />
             )}
-            {value === 1 && <Followers />}
-            {value === 2 && <Following />}
           </Card>
         </center>
       </Container>

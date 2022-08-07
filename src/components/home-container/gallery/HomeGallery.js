@@ -19,12 +19,13 @@ function HomeGallery({ setSelectedProfile }) {
         <Container>
           <div className="root">
             <Grid container spacing={3}>
-            <Grid item xs={5} className="outer">
+              <Grid item xs={5} className="outer">
                 <img src={logo} className="logo-hero" alt="logo-hero" />
               </Grid>
               <Grid item xs={7}>
                 <p className="home-text-intro">
-                Connection develops in phases. Click profiles to see who people are on the outside, and follow them to learn more.
+                  Connection develops in phases. Click profiles to see who
+                  people are on the outside, and follow them to learn more.
                 </p>
               </Grid>
             </Grid>

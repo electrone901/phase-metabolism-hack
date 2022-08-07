@@ -61,7 +61,6 @@ function Followers({}) {
             >
               <Avatar style={{ marginRight: '1rem' }} src={f.image} />
               <p className="address">{f.name}</p>
-              <p className="time">18hrs</p>
             </div>
             <Button className="phase-btn" variant="contained">
               Follow
