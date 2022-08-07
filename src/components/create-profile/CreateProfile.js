@@ -1,28 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router'
-import { Link, withRouter } from 'react-router-dom'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
-import {
-  TextField,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
-  IconButton,
-  Grid,
-  Container,
-  Typography,
-  Button,
-  Chip,
-  Card,
-  StylesProvider,
-} from '@material-ui/core'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Container, Button, Card, StylesProvider } from '@material-ui/core'
 import './CreateProfile.css'
-import imgPlaceHolder from '../../images/imgPlaceHolder.png'
 import { apiKey } from '../../APIKEYS'
+import Rectangle from '../../images/Rectangle 77.png'
 import { NFTStorage, File } from 'nft.storage'
+import axios from 'axios'
 
 function CreateProfile({
   setImage,
@@ -37,11 +20,6 @@ function CreateProfile({
   const [imageName, setImageName] = useState('')
   const [imageType, setImageType] = useState('')
 
-  const requestFollow = (e) => {
-    e.preventDefault()
-    console.log('requestFollow')
-  }
-
   const saveToNFTStorage = async (imgToSave) => {
     console.log('?? imgToSave', imgToSave)
     try {
@@ -52,7 +30,6 @@ function CreateProfile({
         image: new File([imgToSave], 'imageName', { type: 'image/*' }),
       })
       if (metadata) {
-        console.log('metadata.data', metadata.data)
         let urlPartStorage = metadata.data.image.pathname
         urlPartStorage = urlPartStorage.substring(2)
         const imgUrl = `https://cloudflare-ipfs.com/ipfs/${urlPartStorage}`
@@ -64,18 +41,45 @@ function CreateProfile({
     }
   }
 
-  const handleImage = (event) => {
-    setImage(event.target.files[0])
+  const handleImage = async (event) => {
     setImageName(event.target.files[0].name)
     setImageType(event.target.files[0].type)
-    saveToNFTStorage(event.target.files[0])
+    const updataData = new FormData()
+    updataData.append('file', event.target.files[0])
+    const res = await axios.post(
+      'https://api.pinata.cloud/pinning/pinFileToIPFS',
+      updataData,
+      {
+        maxContentLength: 'Infinity',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          pinata_api_key: '309d3c624b4ce20cea2b',
+          pinata_secret_api_key:
+            'a743aec5905097d38724b5daab66f9c206b0b3ef2d01ecccbe79cd2f0e15d026',
+        },
+      },
+    )
+    setImage('https://gateway.pinata.cloud/ipfs/' + res.data.IpfsHash)
   }
 
-  const handleCoverPhoto = (event) => {
-    setCoverPhoto(event.target.files[0])
+  const handleCoverPhoto = async (event) => {
+    const updataData = new FormData()
+    updataData.append('file', event.target.files[0])
+    const res = await axios.post(
+      'https://api.pinata.cloud/pinning/pinFileToIPFS',
+      updataData,
+      {
+        maxContentLength: 'Infinity',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          pinata_api_key: '309d3c624b4ce20cea2b',
+          pinata_secret_api_key:
+            'a743aec5905097d38724b5daab66f9c206b0b3ef2d01ecccbe79cd2f0e15d026',
+        },
+      },
+    )
+    setCoverPhoto('https://gateway.pinata.cloud/ipfs/' + res.data.IpfsHash)
   }
-
-  const handleSubmit = async (e) => {}
 
   return (
     <StylesProvider injectFirst>
@@ -111,15 +115,15 @@ function CreateProfile({
             <hr style={{ border: '1px solid #ccc' }} />
             <br />
 
-            {/* <img
+            <img
               style={{
                 width: '150px',
                 top: '0',
                 left: '0',
               }}
-              src={image ? URL.createObjectURL(image) : imgPlaceHolder}
+              src={image ? image : Rectangle}
               alt="userBGimage"
-            /> */}
+            />
 
             <label htmlFor="formFileImage5">+ Upload</label>
             <input
@@ -127,7 +131,7 @@ function CreateProfile({
               id="formFileImage5"
               onChange={handleImage}
               defaultValue={image}
-              // style={{ display: 'none' }}
+              style={{ display: 'none' }}
               required
             />
 
@@ -164,6 +168,7 @@ function CreateProfile({
             </p>
 
             <br />
+
             <p style={{ textAlign: 'left', paddingBottom: '11px' }}>
               <label htmlFor="w3review">Cover photo</label>
             </p>

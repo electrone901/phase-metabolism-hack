@@ -29,8 +29,9 @@ function MyLinks({
   requestFollow,
   lockedProfile,
   selectedProfile,
-  visitSite,
-}) {
+  visitSite
+}) 
+{
   return (
     <div>
       {isUserLocked ? (
@@ -58,9 +59,22 @@ function MyLinks({
                 variant="outlined"
               />
             ))
-          ) : (
-            <p>No Links available</p>
-          )}
+          ) : selectedProfile?.links
+                ?selectedProfile.links.map((link, index) => (
+                <Chip
+                  className="profile-chip"
+                  avatar={
+                    <img
+                      src={icons[link[0].toLowerCase()]}
+                    />
+                  }
+                  label={link[1]}
+                  onClick={() => visitSite(link[1])}
+                  variant="outlined"
+                />
+              ))
+            : <p>No Links available</p>
+          }
         </div>
       )}
     </div>

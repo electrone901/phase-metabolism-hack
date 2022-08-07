@@ -25,6 +25,7 @@ function ProfileList({ account, contractData, setSelectedProfile }) {
       try {
         setLoading(true)
         const getAllProfiles = await displayAll()
+        console.log(getAllProfiles)
         setProfiles(getAllProfiles)
         setLoading(false)
       } catch (error) {
@@ -56,7 +57,7 @@ function ProfileList({ account, contractData, setSelectedProfile }) {
                     <CardMedia
                       component="img"
                       height="240"
-                      image={profile.image}
+                      image={profile.avatar || profile.image}
                       alt="Profile"
                     />
                     <CardContent>

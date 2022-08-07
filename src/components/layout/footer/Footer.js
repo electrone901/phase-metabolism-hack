@@ -17,7 +17,7 @@ function Footer() {
       <footer>
         <div className="footer">
           <div className="row">
-            <img src={logo} alt="logo" className="logo" />
+            <img src={logo} alt="logo" />
           </div>
 
           <div className="row">
@@ -34,7 +34,6 @@ function Footer() {
               <li>
                 <a href="#">Terms & Conditions</a>
               </li>
-          
             </ul>
           </div>
 

@@ -9,27 +9,35 @@ import {
   Tab,
   StylesProvider,
 } from '@material-ui/core'
-import './Profile.css'
+import '../profile/Profile.css'
 import userBGimage from '../../../images/backgroundIMG.png'
 import copy from '../../../images/copy.png'
 import lockedProfile from '../../../images/locked.png'
 import { doesFollow } from '../../../Phase/doesFollow'
 import { follow } from '../../../Phase/follow'
-import MyLinks from './MyLinks'
-import Followers from './Followers'
-import Following from './Following'
+import MyLinks from '../profile/MyLinks'
+import Followers from '../profile/Followers'
+import Following from '../profile/Following'
+import { displayPhase } from '../../../Phase/displayPhase'
 
-function Profile({ account, currentAccount, selectedProfile }) {
+function MyProfile({ account, currentAccount, selectedProfile }) {
   console.log(
     '🚀 ~ file: Profile.js ~ line 26 ~ Profile ~ selectedProfile',
     selectedProfile
   )
   const { petId } = useParams()
+  const [userProfile, setUserProfile] = useState({})
   const [showProfile, setShowProfile] = useState(false)
 
   useEffect(() => {
-    checkFollow()
+    getProfile()
   }, [])
+
+  const getProfile = async () => {
+    const user = await displayPhase(currentAccount);
+    console.warn(user);
+    setUserProfile(user)
+  }
 
   const checkFollow = async (e) => {
     const follower = currentAccount
@@ -105,58 +113,44 @@ function Profile({ account, currentAccount, selectedProfile }) {
                 width: '120px',
                 height: '125px',
               }}
-              src={selectedProfile.image || selectedProfile.avatar}
+              src={userProfile.image || userProfile.avatar}
               alt="userImage"
             />
 
-            <p className="profile-username">{selectedProfile.name || selectedProfile.username}</p>
+            <p className="profile-username">{userProfile.name || userProfile.username}</p>
             <p className="profile-wallet">
-              {selectedProfile.address
-                ? selectedProfile.address
+              {userProfile.address
+                ? userProfile.address
                 : '0x5e1b802905c9730C8474eED020F800CC38A6A42E'}
 
               <img className="profile-wallet-copy" src={copy} alt="copy.png" />
             </p>
-            <p className="prof-description">{selectedProfile.description || selectedProfile.bio}</p>
+            <p className="prof-description">{userProfile.description || userProfile.bio}</p>
 
-            {showProfile ? (
-              <>
-                <Paper square>
-                  <Tabs
-                    value={value}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    onChange={handleChange}
-                    aria-label="disabled tabs example"
-                  >
-                    <Tab label="Profile" />
-                    <Tab label="Followers" />
-                    <Tab label="Following" />
-                  </Tabs>
-                </Paper>
-                <hr />
-                {value === 0 && (
-                  <MyLinks
-                    requestFollow={requestFollow}
-                    lockedProfile={lockedProfile}
-                    selectedProfile={selectedProfile}
-                    visitSite={visitSite}
-                  />
-                )}
-                {value === 1 && <Followers />}
-                {value === 2 && <Following />}
-              </>
-            ) : (
-              <img
-                style={{
-                  width: '100%',
-                  paddingTop: '1rem',
-                }}
-                src={lockedProfile}
-                alt="userImage"
-                onClick={requestFollow}
+            <Paper square>
+              <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+              >
+                <Tab label="Profile" />
+                <Tab label="Followers" />
+                <Tab label="Following" />
+              </Tabs>
+            </Paper>
+            <hr />
+            {value === 0 && (
+              <MyLinks
+                requestFollow={requestFollow}
+                lockedProfile={lockedProfile}
+                selectedProfile={userProfile}
+                visitSite={visitSite}
               />
             )}
+            {value === 1 && <Followers />}
+            {value === 2 && <Following />}
           </Card>
         </center>
       </Container>
@@ -164,4 +158,4 @@ function Profile({ account, currentAccount, selectedProfile }) {
   )
 }
 
-export default Profile
+export default MyProfile

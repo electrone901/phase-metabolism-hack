@@ -1,48 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router'
-import { Link, withRouter } from 'react-router-dom'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
-import {
-  TextField,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
-  IconButton,
-  Grid,
-  Container,
-  Typography,
-  Button,
-  Chip,
-  Card,
-  StylesProvider,
-} from '@material-ui/core'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { Container, Button, Card, StylesProvider } from '@material-ui/core'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import './CreateLinks.css'
-import { apiKey } from './APIKEYS'
-import { NFTStorage, File } from 'nft.storage'
 import { createPhase } from '../../Phase/createPhase'
 
 function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
+  const history = useHistory()
   const [twitter, setTwitter] = useState('')
   const [loading, setLoading] = useState(false)
   const [instagram, setInstagram] = useState('')
   const [linkArray, setLinkArray] = useState([])
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
-  const [avatarFromStorage, setAvatarFromStorage] = useState('')
-  const [coverFromStorage, setCoverFromStorage] = useState('')
-
-  const requestFollow = (e) => {
-    e.preventDefault()
-  }
 
   const createProfile = async () => {
     let user_name = username ? username : 'electrone'
     let avatar = image ? image : 'https://i.imgur.com/62G0yQ0.jpeg'
-    let banner = 'https://i.imgur.com/62G0yQ0.jpeg'
+    let banner = coverPhoto ? coverPhoto : 'https://i.imgur.com/62G0yQ0.jpeg'
 
     let bio_ = bio
       ? bio
@@ -59,6 +34,7 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       ? currentAccount
       : '0x891352608735f630AF999ba572fd57511137e758'
 
+    console.warn(address, user_name, avatar, banner, bio_, links)
     const res = await createPhase(
       address,
       user_name,
@@ -67,8 +43,9 @@ function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
       bio_,
       links,
     )
+    console.log(res)
     setLoading(false)
-    //   history.push('/')
+    history.push('/')
   }
 
   const save = async () => {

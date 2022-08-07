@@ -7,10 +7,9 @@ import HomeGallery from './components/home-container/gallery/HomeGallery'
 import Profile from './components/home-container/profile/Profile'
 import CreateProfile from './components/create-profile/CreateProfile'
 import CreateLinks from './components/create-links/CreateLinks'
+import MyProfile from './components/home-container/myprofile/MyProfile'
 import Notifications from './components/notifications/Notifications'
 import Web3Modal from 'web3modal'
-import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
-import backgroundimgApp from '../src/images/phase-bg.png'
 
 // FUNCTIONS
 import { displayAll } from './Phase/displayAll'
@@ -23,7 +22,6 @@ function App() {
   const [hasProfile, setHasProfile] = useState('')
   const [allProfiles, setAllProfiles] = useState([])
   const [selectedProfile, setSelectedProfile] = useState('')
-
   const [image, setImage] = useState('')
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
@@ -33,23 +31,12 @@ function App() {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
-
     const signer = provider.getSigner()
     const address = await signer.getAddress()
-    console.log('🚀 ~ file: App.js ~ line 40 ~ connectWal ~ address', address)
     setCurrentAccount(address)
-
     localStorage.setItem('currentAccountLocalStorage', address)
-
     const resHasPhase = await hasPhase(address)
-    console.log('resHasPhase', resHasPhase)
     setHasProfile(resHasPhase)
-
-    // const t = await hasPhase('0x16f30F46e97252761C7FAb419B498Aa24032743c')
-    // console.log('t', t)
-    // runs hasPhase(address)
-    //        true: 2 tabs: home and profile
-    //        false: 2 rabs: home and create profile
   }
 
   const disconnectWallet = async () => {
@@ -57,19 +44,11 @@ function App() {
     setCurrentAccount('')
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     const getAddress = localStorage.getItem('currentAccountLocalStorage')
     setCurrentAccount(getAddress)
-    const getAllProfiles = await displayAll()
+    const getAllProfiles = displayAll()
     setAllProfiles(getAllProfiles)
-
-    // To follow
-    // const follower = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
-    // const following = '0xf4eA652F5B7b55f1493631Ea4aFAA63Fe0acc27C'
-    // const t = await follow(follower, following)
-    // console.log("what's  t", t)
-    // const res = t.value.toString()
-    // console.log('res', res)
   }, [])
 
   return (
@@ -118,6 +97,12 @@ function App() {
 
           <Route path="/profile/details">
             <Profile
+              selectedProfile={selectedProfile}
+              currentAccount={currentAccount}
+            />
+          </Route>
+          <Route path="/my-profile">
+            <MyProfile
               selectedProfile={selectedProfile}
               currentAccount={currentAccount}
             />
