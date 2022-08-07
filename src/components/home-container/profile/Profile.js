@@ -11,6 +11,8 @@ import Banner from '../../../images/website.png'
 import GitHub from '../../../images/GitHub.png'
 import copy from '../../../images/copy.png'
 import lockedProfile from '../../../images/locked.png'
+import { doesFollow } from '../../../old-Phase/doesFollow'
+
 const icons = {
   ENS: ENS,
   Twitter: Twitter,
@@ -21,10 +23,27 @@ const icons = {
 }
 
 function Profile({ account, currentAccount, selectedProfile }) {
+  console.log(
+    '🚀 ~ file: Profile.js ~ line 26 ~ Profile ~ selectedProfile',
+    selectedProfile,
+  )
   const { petId } = useParams()
   const { isUserLocked, setIsUserLocked } = useState(false)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    checkFollow()
+  }, [])
+
+  const checkFollow = async (e) => {
+    const followerAddress = currentAccount
+    const accountToFollowAddress = '0x11760DB13aE3Aa5Bca17fC7D62172be2A2Ea9C11'
+
+    const user1 = '0x9ecFca6B5dBE01772177F1b4fB660a063D17a7De'
+    const user2 = '0x16f30F46e97252761C7FAb419B498Aa24032743c'
+    const res = await doesFollow(user1, user2)
+    // const res = await doesFollow(followerAddress, accountToFollowAddress)
+    console.log('9999 checkFollow ~ res', res)
+  }
 
   const requestFollow = (e) => {
     e.preventDefault()

@@ -10,10 +10,7 @@ async function displayPhase(address) {
 
         //  Require profile_address == zero address
         if (profile_address == ethers.constants.AddressZero) {
-            return {
-                name : address,
-                image : 'https://i.imgur.com/VvOpmh3.png'
-            }
+            return "Phase Doesn't Exist!"
         }
 
         // Set array items to variables
@@ -25,8 +22,7 @@ async function displayPhase(address) {
         let metadata = {
             name : username,
             image : avatar,
-            description : bio,
-            address : address
+            description : bio
         }
 
         // Set banner as top attribute
@@ -41,7 +37,7 @@ async function displayPhase(address) {
 
         // Add attributes to metadata
         metadata.attributes = attributes
-
+        
         return metadata
 
     } catch (error) {

@@ -13,7 +13,7 @@ import {
 
 import { apiKey } from '../../../../APIKEYS'
 import CircularStatic from '../../../commons/CircularProgressWithLabel'
-import { displayAll } from '../../../../Phase/displayAll'
+import { displayAll } from '../../../../old-Phase/displayAll'
 
 function ProfileList({ account, contractData, setSelectedProfile }) {
   const [loading, setLoading] = useState(false)

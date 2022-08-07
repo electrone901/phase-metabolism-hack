@@ -21,30 +21,54 @@ import {
 } from '@material-ui/core'
 import './CreateProfile.css'
 import imgPlaceHolder from '../../images/imgPlaceHolder.png'
-import { displayAll } from '../../Phase/displayAll'
+import { apiKey } from '../../APIKEYS'
+import { NFTStorage, File } from 'nft.storage'
 
-function CreateProfile() {
-  const [image, setImage] = useState('')
-  const [username, setUsername] = useState('')
-  const [bio, setBio] = useState('')
-  const [coverPhoto, setCoverPhoto] = useState('')
-  const [links, setLinks] = useState([])
-  console.log('all data', username, bio, coverPhoto, image)
-
+function CreateProfile({
+  setImage,
+  setUsername,
+  setBio,
+  setCoverPhoto,
+  image,
+  username,
+  bio,
+  coverPhoto,
+}) {
   const [imageName, setImageName] = useState('')
   const [imageType, setImageType] = useState('')
-
-  // Add variables
 
   const requestFollow = (e) => {
     e.preventDefault()
     console.log('requestFollow')
   }
 
+  const saveToNFTStorage = async (imgToSave) => {
+    console.log('?? imgToSave', imgToSave)
+    try {
+      const client = new NFTStorage({ token: apiKey })
+      const metadata = await client.store({
+        name: 'username',
+        description: 'description',
+        image: new File([imgToSave], 'imageName', { type: 'image/*' }),
+      })
+      if (metadata) {
+        console.log('metadata.data', metadata.data)
+        let urlPartStorage = metadata.data.image.pathname
+        urlPartStorage = urlPartStorage.substring(2)
+        const imgUrl = `https://cloudflare-ipfs.com/ipfs/${urlPartStorage}`
+        console.log('Result imgUrl', imgUrl)
+        setImage(imgUrl)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleImage = (event) => {
     setImage(event.target.files[0])
     setImageName(event.target.files[0].name)
     setImageType(event.target.files[0].type)
+    saveToNFTStorage(event.target.files[0])
   }
 
   const handleCoverPhoto = (event) => {
@@ -87,7 +111,7 @@ function CreateProfile() {
             <hr style={{ border: '1px solid #ccc' }} />
             <br />
 
-            <img
+            {/* <img
               style={{
                 width: '150px',
                 top: '0',
@@ -95,7 +119,7 @@ function CreateProfile() {
               }}
               src={image ? URL.createObjectURL(image) : imgPlaceHolder}
               alt="userBGimage"
-            />
+            /> */}
 
             <label htmlFor="formFileImage5">+ Upload</label>
             <input

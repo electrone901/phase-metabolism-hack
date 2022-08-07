@@ -13,18 +13,20 @@ import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
 import backgroundimgApp from '../src/images/phase-bg.png'
 
 // FUNCTIONS
-import phase from '../src/Phase/utils/init'
-
-import { displayAll } from '../src/Phase/displayAll'
-import { follow } from '../src/Phase/follow'
+import { displayAll } from './old-Phase/displayAll'
+import { follow } from './old-Phase/follow'
 
 const { ethers } = require('ethers')
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState('')
-  console.log('EFFEctcurrentAccount', currentAccount)
   const [allProfiles, setAllProfiles] = useState([])
   const [selectedProfile, setSelectedProfile] = useState('')
+
+  const [image, setImage] = useState('')
+  const [username, setUsername] = useState('')
+  const [bio, setBio] = useState('')
+  const [coverPhoto, setCoverPhoto] = useState('')
 
   const connectWallet = async () => {
     const web3Modal = new Web3Modal()
@@ -36,6 +38,11 @@ function App() {
     console.log('🚀 address', address)
     setCurrentAccount(address)
     localStorage.setItem('currentAccountLocalStorage', address)
+  }
+
+  const disconnectWallet = async () => {
+    localStorage.removeItem('currentAccountLocalStorage')
+    setCurrentAccount('')
   }
 
   useEffect(async () => {
@@ -56,7 +63,11 @@ function App() {
   return (
     <Router>
       <div className="cl">
-        <Navbar connectWallet={connectWallet} currentAccount={currentAccount} />
+        <Navbar
+          connectWallet={connectWallet}
+          disconnectWallet={disconnectWallet}
+          currentAccount={currentAccount}
+        />
 
         <Route exact path="/">
           <HomeGallery
@@ -65,12 +76,31 @@ function App() {
           />
         </Route>
         <Switch>
-          <Route exact path="/create" component={CreateProfile} />
-
           <Route exact path="/notifications" component={Notifications} />
 
+          <Route path="/create">
+            <CreateProfile
+              setCoverPhoto={setCoverPhoto}
+              setImage={setImage}
+              setUsername={setUsername}
+              setBio={setBio}
+              setCoverPhotoFunction={setCoverPhoto}
+              currentAccount={currentAccount}
+              image={image}
+              username={username}
+              bio={bio}
+              coverPhoto={coverPhoto}
+            />
+          </Route>
+
           <Route path="/create-links">
-            <CreateLinks currentAccount={currentAccount} />
+            <CreateLinks
+              currentAccount={currentAccount}
+              image={image}
+              username={username}
+              bio={bio}
+              coverPhoto={coverPhoto}
+            />
           </Route>
 
           <Route path="/profile/details">

@@ -19,13 +19,7 @@ import { StylesProvider } from '@material-ui/core/styles'
 import './Navbar.css'
 import logo from '../../../images/logo.jpg'
 
-
-
-export const Navbar = ({
-  currentAccount,
-  connectWallet,
-  onClickDisconnect,
-}) => {
+export const Navbar = ({ currentAccount, connectWallet, disconnectWallet }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
@@ -153,13 +147,13 @@ export const Navbar = ({
                   {currentAccount.substring(0, 8)}...
                   {currentAccount.substring(38)}
                 </Button>
-                {/* <Button
-                  style={{ color: 'white' }}
+                <Button
+                  style={{ color: 'black' }}
                   to="/"
-                  onClick={onClickDisconnect}
+                  onClick={disconnectWallet}
                 >
                   Logout
-                </Button> */}
+                </Button>
               </>
             ) : (
               <>

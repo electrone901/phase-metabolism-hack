@@ -18,7 +18,7 @@ async function unfollow(unfollower, unfollowing) {
             return
         }
         
-        let tx = await phase.removeFollower(unfollower, unfollowing)
+        let tx = await phase.unfollow(unfollower, unfollowing)
         return tx
 
     } catch (error) {

@@ -1,7 +1,6 @@
 const { phase } = require('./utils/init.js')
 const { displayPhase } = require('./displayPhase.js')
 
-
 async function displayAll() {
 
     try {

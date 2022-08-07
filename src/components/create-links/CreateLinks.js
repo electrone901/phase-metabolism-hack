@@ -19,45 +19,58 @@ import {
   Card,
   StylesProvider,
 } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import './CreateLinks.css'
-import imgPlaceHolder from '../../images/imgPlaceHolder.png'
-import { createPhase } from '../../../src/Phase/createPhase'
+import { apiKey } from './APIKEYS'
+import { NFTStorage, File } from 'nft.storage'
+import { createPhase } from '../../old-Phase/createPhase'
 
-function CreateLinks({ currentAccount }) {
-  console.log('CreateLinks currentAccount', currentAccount)
+function CreateLinks({ currentAccount, image, username, bio, coverPhoto }) {
+  console.log(" image", image)
   const [twitter, setTwitter] = useState('')
+  const [loading, setLoading] = useState(false)
   const [instagram, setInstagram] = useState('')
   const [linkArray, setLinkArray] = useState([])
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
-  console.log(
-    'twitter,instagram, linkArray =====',
-    twitter,
-    instagram,
-    linkArray,
-  )
+  const [avatarFromStorage, setAvatarFromStorage] = useState('')
+  const [coverFromStorage, setCoverFromStorage] = useState('')
+
   const requestFollow = (e) => {
     e.preventDefault()
-    console.log('requestFollow')
   }
 
+
+
   const createProfile = async () => {
-    // create profile
-    let username = 'electrone'
-    let avatar = 'https://i.imgur.com/62G0yQ0.jpeg'
-    let banner = 'https://i.imgur.com/25zhGbg.jpeg'
-    let bio =
-      'I am a software developer who enjoys web and mobile development through universal components. By day I love to code and drinking tea. At night I sleep.'
-    let links = [
-      ['Website', 'https://www.sophiebritt.com/'],
-      ['GitHub', 'https://github.com/ryansea'],
-    ]
+    let user_name = username ? username : 'electrone'
+    let avatar = image
+      ? image
+      : 'https://i.imgur.com/62G0yQ0.jpeg'
+    let banner = 'https://i.imgur.com/62G0yQ0.jpeg'
+
+    let bio_ = bio
+      ? bio
+      : 'I am a software developer who enjoys web and mobile development through universal components. By day I love to code and drinking tea. At night I sleep.'
+    let links = linkArray
     let address = currentAccount
-    const res = await createPhase(address, username, avatar, banner, bio, links)
+
+    const res = await createPhase(
+      address,
+      user_name,
+      avatar,
+      banner,
+      bio,
+      links,
+    )
+
     console.log(' res', res)
+    setLoading(false)
+    //   history.push('/')
   }
 
   const save = async () => {
+    setLoading(true)
     let twitterData = []
     let instagramData = []
     let newArr = []
@@ -73,7 +86,6 @@ function CreateLinks({ currentAccount }) {
     }
 
     setLinkArray([...linkArray, ...newArr])
-
     createProfile()
   }
 
@@ -117,6 +129,7 @@ function CreateLinks({ currentAccount }) {
 
             <hr style={{ border: '1px solid #ccc' }} />
             <br />
+
             <p>
               <label htmlFor="fname">Twitter</label>
             </p>
@@ -194,6 +207,16 @@ function CreateLinks({ currentAccount }) {
             <br />
             <br />
             <hr style={{ border: '1px solid #ccc' }} />
+            <br />
+            <br />
+            {loading ? (
+              <div className="">
+                <LinearProgress />
+              </div>
+            ) : (
+              ''
+            )}
+
             <br />
             <center>
               <Button className="whiteLink" component={Link} to="/">
